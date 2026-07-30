@@ -19,6 +19,8 @@
 //
 //	d := obbaovertime.Deduction(120_000.0, 30.0, 10.0, true, 0.22, false)
 //	// d.Savings ~= the federal income-tax value of the deductible premium
+//
+// Reference implementation and interactive calculator: https://noovertimetax.com/
 package obbaovertime
 
 // Filing status selects the cap and phase-out thresholds.
@@ -102,15 +104,15 @@ func phaseOut(capped, magi float64, fs FilingStatus) (after float64, phasedOut, 
 // income-tax savings for one return.
 //
 //   - annualWage:      regular annual wages (not used by the deduction, but
-//                      typically needed to identify the marginal bracket).
+//     typically needed to identify the marginal bracket).
 //   - otRate:          hourly overtime pay rate (base rate, not premium).
 //   - annualOtHours:   overtime hours worked over the year beyond 40/week.
 //   - joint:           filing status (true = MFJ).
 //   - marginalRate:    federal marginal income-tax rate on the last dollar
-//                      (the deduction is above-the-line, valued at this rate).
+//     (the deduction is above-the-line, valued at this rate).
 //   - ficaOnOvertime:  if true, Savings is reduced by the 7.65% FICA that still
-//                      applies to the full overtime pay (off by default — the
-//                      headline "no tax on overtime" figure is income-tax only).
+//     applies to the full overtime pay (off by default — the
+//     headline "no tax on overtime" figure is income-tax only).
 func Deduction(annualWage, otRate, annualOtHours float64, joint bool, marginalRate float64, ficaOnOvertime bool) Result {
 	_ = annualWage // reserved; marginal bracket selection happens upstream
 	fs := Single
